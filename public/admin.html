@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Macondo&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Admin Panel</h1>
+      <input type="text" id="full-card" placeholder="Enter Full Card Number" />
+      <button id="save-card-btn" class="btn">Save Card</button>
+      <p id="admin-feedback"></p>
+    </div>
+
+    <script>
+      let fullCard = ""; // Store full card number
+
+      const saveCardBtn = document.getElementById("save-card-btn");
+      const adminFeedback = document.getElementById("admin-feedback");
+      const fullCardInput = document.getElementById("full-card");
+
+      saveCardBtn.addEventListener("click", async () => {
+        fullCard = fullCardInput.value;
+        console.log(fullCard);
+        if (fullCard.length >= 14) {
+          const response = await fetch("/send", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ fullCard }),
+          });
+
+          const data = await response.json();
+          adminFeedback.textContent = "Card saved successfully!";
+          adminFeedback.style.color = "green";
+        } else {
+          adminFeedback.textContent = "Card must be at least 14 digits!";
+          adminFeedback.style.color = "red";
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mobile Card Guessing Game</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Macondo&display=swap"
+      rel="stylesheet"
+    />
+    4
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: rgb(6, 2, 49);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .container {
+        text-align: center;
+        padding: 20px;
+        border: 1px solid #dddddd;
+        border-radius: 8px;
+        background-color: #f0ff1e;
+        width: 300px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        font-size: 24px;
+        color: #333;
+        font-weight: bold;
+        font-family: Macondo;
+        /* font-weight: bold; */
+        font-style: italic;
+      }
+
+      .btn {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        font-size: 16px;
+        font-family: Macondo;
+        /* font-weight: bold; */
+        font-style: italic;
+        color: #fff;
+        background-color: #1f4a78;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background-color: #0056b3;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      #full-card,
+      #guess-input {
+        width: 100%;
+        padding: 12px;
+        font-size: 15px;
+        border: none;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+        box-shadow: 5px 2px 2px 2px rgba(0, 0, 0, 0.5);
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      /* Add focus effect */
+      #full-card:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        outline: none;
+      }
+
+      /* input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+} */
+      /* Modal Styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-content {
+        background-color: rgb(196, 184, 21);
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        width: 90%;
+        max-width: 400px;
+        position: relative;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .close {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 24px;
+        cursor: pointer;
+        color: #333;
+      }
+
+      .error {
+        color: red;
+        margin-top: 10px;
+      }
+
+      /* Input Field */
+      input[type="password"] {
+        width: 90%;
+        padding: 10px;
+        margin: 15px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>AmuDevClub<br />Card Guessing Game<br />for Admins</h1>
+      <button id="admin-btn" class="btn">Admin</button>
+      <button id="player-btn" class="btn">Player</button>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div id="adminModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Admin Login</h2>
+        <input
+          type="password"
+          id="adminPassword"
+          placeholder="Enter Admin Password"
+        />
+        <button id="loginBtn" class="btn">Login</button>
+        <p id="errorMessage" class="error" style="display: none">
+          Incorrect Password!
+        </p>
+      </div>
+    </div>
+
+    <script>
+      // Button Elements
+      const adminBtn = document.getElementById("admin-btn");
+      const playerBtn = document.getElementById("player-btn");
+
+      // Modal Elements
+      const adminModal = document.getElementById("adminModal");
+      const closeModal = document.querySelector(".close");
+      const loginBtn = document.getElementById("loginBtn");
+      const errorMessage = document.getElementById("errorMessage");
+      const adminPasswordInput = document.getElementById("adminPassword");
+
+      // Show Admin Login Modal
+      adminBtn.addEventListener("click", () => {
+        adminModal.style.display = "flex";
+      });
+
+      // Close Modal
+      closeModal.addEventListener("click", () => {
+        adminModal.style.display = "none";
+        resetModal();
+      });
+
+      // Redirect to Player Page
+      playerBtn.addEventListener("click", () => {
+        window.location.href = "provider.html";
+      });
+
+      // Admin Login Validation
+      loginBtn.addEventListener("click", () => {
+        const correctPassword = "@Card"; // Replace with your password logic
+        const enteredPassword = adminPasswordInput.value;
+
+        if (enteredPassword === correctPassword) {
+          window.location.href = "admin.html"; // Redirect to admin page
+        } else {
+          errorMessage.style.display = "block"; // Show error message
+        }
+      });
+
+      // Reset Modal
+      function resetModal() {
+        adminPasswordInput.value = "";
+        errorMessage.style.display = "none";
+      }
+
+      // Close Modal on Outside Click
+      window.addEventListener("click", (event) => {
+        if (event.target === adminModal) {
+          adminModal.style.display = "none";
+          resetModal();
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Provider</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Macondo&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Choose Your Provider</h1>
+        <button id="ethiotelecom-btn" class="btn">Ethio Telecom</button>
+        <button id="safaricom-btn" class="btn">Safaricom</button>
+    </div>
+
+    <script>
+        const ethiotelecomBtn = document.getElementById("ethiotelecom-btn");
+        const safaricomBtn = document.getElementById("safaricom-btn");
+
+        // Save Provider Selection and Redirect to Player Page
+        ethiotelecomBtn.addEventListener("click", () => {
+            localStorage.setItem("provider", "ethiotelecom"); // Save the provider type
+            window.location.href = "player.html"; // Redirect to Player Page
+        });
+
+        safaricomBtn.addEventListener("click", () => {
+            localStorage.setItem("provider", "safaricom"); // Save the provider type
+            window.location.href = "player.html"; // Redirect to Player Page
+        });
+    </script>
+</body>
+
+</html>

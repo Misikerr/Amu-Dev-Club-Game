@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Player Guess</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Macondo&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Guess the Card</h1>
+      <p id="masked-card">Masked Card: Not Set</p>
+      <input type="number" id="guess-input" placeholder="Guess The Last Digit" />
+      <button id="submit-guess-btn" class="btn">Submit Guess</button>
+      <p id="player-feedback"></p>
+      <p id="attempts-left"></p>
+      <button id="redeem-btn" class="btn hidden">Redeem Card</button>
+    </div>
+
+    <script>
+      const maskedCardDisplay = document.getElementById("masked-card");
+      const guessInput = document.getElementById("guess-input");
+      const submitGuessBtn = document.getElementById("submit-guess-btn");
+      const playerFeedback = document.getElementById("player-feedback");
+      const attemptsLeft = document.getElementById("attempts-left");
+      const redeemBtn = document.getElementById("redeem-btn");
+
+      let fullCard;
+      let correctLastTwoDigits;
+      let maskedCard;
+      let remainingGuesses = 3;
+
+      async function getCard() {
+        try {
+          const response = await fetch("/player", {
+            method: "GET",
+          });
+
+          const data = await response.json();
+          fullCard = data.card; // Assuming the API returns `{ card: "12345678901234" }`
+
+          if (fullCard) {
+            correctLastTwoDigits = fullCard.slice(-1);
+            maskedCard = `${fullCard.slice(0, 6)}********`;
+            maskedCardDisplay.textContent = `Masked Card: ${maskedCard}`;
+            submitGuessBtn.disabled = false;
+          } else {
+            maskedCardDisplay.textContent = "No card set by admin.";
+            submitGuessBtn.disabled = true;
+          }
+        } catch (error) {
+          console.error("Error fetching card:", error);
+          maskedCardDisplay.textContent = "Error fetching card.";
+        }
+      }
+
+      getCard();
+
+      submitGuessBtn.addEventListener("click", async () => {
+        const playerGuess = guessInput.value.trim();
+
+        if (!playerGuess || playerGuess.length !== 1) {
+          playerFeedback.textContent = "Please enter the last 1 digits.";
+          playerFeedback.style.color = "orange";
+          return;
+        }
+
+        if (remainingGuesses > 0) {
+          if (playerGuess === correctLastTwoDigits) {
+            playerFeedback.textContent = "🎉 Correct! You win!";
+            playerFeedback.style.color = "green";
+            maskedCardDisplay.textContent = `Full Card: ${fullCard}`;
+            redeemBtn.classList.remove("hidden");
+            submitGuessBtn.disabled = true;
+          } else {
+            remainingGuesses--;
+            playerFeedback.textContent = `❌ Wrong guess.`;
+            playerFeedback.style.color = "red";
+            attemptsLeft.textContent = `Attempts Left: ${remainingGuesses}`;
+          }
+        }
+        if (remainingGuesses === 0) {
+          submitGuessBtn.disabled = true;
+          playerFeedback.textContent =
+            "❌ No more attempts! Better luck next time.";
+        }
+      });
+
+      redeemBtn.addEventListener("click", () => {
+        const provider = localStorage.getItem("provider");
+        if (provider && fullCard.length >= 14) {
+          let ussdCode = "";
+
+          if (provider === "ethiotelecom") {
+            ussdCode = `*805*${fullCard}#`;
+            playerFeedback.textContent = "Redeeming with Ethio Telecom";
+            playerFeedback.style.color = "green";
+          } else if (provider === "safaricom") {
+            ussdCode = `*705*${fullCard}#`;
+            playerFeedback.textContent = "Redeeming with Safaricom";
+            playerFeedback.style.color = "blue";
+          } else {
+            playerFeedback.textContent = "Provider not selected!";
+            playerFeedback.style.color = "red";
+            return;
+          }
+
+          window.location.href = `tel:${encodeURIComponent(ussdCode)}`;
+        } else {
+          playerFeedback.textContent = "Invalid card or provider not selected!";
+          playerFeedback.style.color = "red";
+        }
+      });
+    </script>
+  </body>
+</html>
