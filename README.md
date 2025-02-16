@@ -22,13 +22,15 @@ Admin Panel Security:
 - The admin panel is secure to ensure only authorized users can manage the game.
 - The admin password is set on the user side using JavaScript for local validation.
 - Future improvements will include shifting the password validation to the server side for better security and control.
-Player Panel:
+  
+##Player Panel:
 
 - Players can guess the given card from anywhere at any time.
 - Before making a guess, the player must choose a provider.
 - If the player guesses the card correctly, the card is automatically redeemed and will be redirected to the player’s phone log.
 - If the correct provider was selected and the guess was accurate, the redemption is successful.
-Provider Mismatch:
+  
+##Provider Mismatch:
 
 - If a player guesses the card correctly but selects a different provider, the card will not be redeemed and the redemption will fail.
 However, if another player chooses the correct provider and guesses the card correctly (even if after the first player), they will receive the card and be able to redeem it, provided the provider is the same.
