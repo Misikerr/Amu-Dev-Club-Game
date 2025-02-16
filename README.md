@@ -23,6 +23,7 @@ Admin Panel Security:
 - The admin password is set on the user side using JavaScript for local validation.
 - Future improvements will include shifting the password validation to the server side for better security and control.
 - Password: "@Card"
+  
 Player Panel:
 
 - Players can guess the given card from anywhere at any time.
@@ -34,6 +35,7 @@ Provider Mismatch:
 
 - If a player guesses the card correctly but selects a different provider, the card will not be redeemed and the redemption will fail.
 However, if another player chooses the correct provider and guesses the card correctly (even if after the first player), they will receive the card and be able to redeem it, provided the provider is the same.
+
 ## Limitations
 
 - Since Render has limitations on free-tier services, the stored card data does not persist indefinitely. It may reset when the service restarts.
