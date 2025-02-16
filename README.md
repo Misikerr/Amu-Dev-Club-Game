@@ -22,7 +22,7 @@ Admin Panel Security:
 - The admin panel is secure to ensure only authorized users can manage the game.
 - The admin password is set on the user side using JavaScript for local validation.
 - Future improvements will include shifting the password validation to the server side for better security and control.
-  
+- Password: "@Card"
 Player Panel:
 
 - Players can guess the given card from anywhere at any time.
