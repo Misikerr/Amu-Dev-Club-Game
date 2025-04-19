@@ -10,7 +10,7 @@ This project is built to engage our community in a fun and interactive way. It i
 
 ## Hosting and Deployment
 
-The project is hosted on **Render**:
+The project is hosted on **Render**: 
 
 - The **frontend** is deployed as a **static site**.
 - The **backend** (Node.js) is deployed as a **web service**.
