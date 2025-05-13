@@ -1,4 +1,4 @@
-# Amu-Dev-Club Game Project✌️ 1
+# Amu-Dev-Club Game Project✌️ 
 
 This project is built to engage our community in a fun and interactive way. It is a web-based game that uses Node.js to store and manage game data on a server. Initially, the game relied on local storage for saving card data, but now it uses a backend for better persistence.
 
